@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { UserButton } from "@clerk/nextjs";
 import {
   FileText,
   LayoutDashboard,
@@ -137,10 +138,10 @@ const DashboardLayout = ({ children }) => {
         </div>
       </aside>
 
-      <div className="ml-0 lg:ml-64">
-        <header>
-          <div>
-            <div>
+      <div className="ml-0 lg:ml-64 flex flex-col min-h-screen">
+        <header className="fixed w-full top-0 right-0 z-30 bg-slate-800/80 backdrop-blur-md border-b border-slate-700">
+          <div className="flex items-center justify-between px-4 lg:px-8 py-4">
+            <div className="flex items-center space-x-4">
               <Button
                 variant={"ghost"}
                 size={"icon"}
@@ -150,9 +151,27 @@ const DashboardLayout = ({ children }) => {
                 <Menu className="size-5" />
               </Button>
             </div>
+
+            <div className="h-10 flex items-center space-x-4">
+              <UserButton />
+            </div>
           </div>
         </header>
-        {children}
+        
+        <main className="mt-[72px] px-4 lg:px-8 py-3 flex-1">
+          {children}
+        </main>
+
+        <footer className="relative bg-transparent z-10 border-t border-purple-500/50 py-5 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto text-center">
+            <p className="text-muted-foreground">
+              Made with ❤️ by{" "}
+              <span className="text-white/85 font-semibold">
+                WhizzDigics
+              </span>
+            </p>
+          </div>
+        </footer>
       </div>
     </div>
   );

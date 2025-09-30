@@ -1,6 +1,6 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
-import { email } from "zod";
+
 
 export default defineSchema({
   users: defineTable({
