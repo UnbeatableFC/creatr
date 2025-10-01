@@ -6,7 +6,6 @@ import { mutation, query } from "./_generated/server";
 export const getUserDraft = query({
   handler: async (ctx) => {
     const user = await ctx.runQuery(internal.users.getCurrentUser);
-
     const draft = await ctx.db
       .query("posts")
       .filter((q) =>
