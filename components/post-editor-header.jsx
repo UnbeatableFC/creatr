@@ -2,8 +2,21 @@
 
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { ArrowLeft, Loader2, Save, Settings } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Loader2,
+  Save,
+  Send,
+  Settings,
+} from "lucide-react";
 import { Badge } from "./ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const PostEditorHeader = ({
   mode,
@@ -74,6 +87,59 @@ const PostEditorHeader = ({
                 <Save className="size-4" />
               )}
             </Button>
+          )}
+          {isEdit ? (
+            <Button
+              variant={"primary"}
+              disabled={isPublishing}
+              onClick={() => {
+                onPublish();
+                setIsPublishStateOpen(false);
+              }}
+            >
+              {isPublishing ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Send className="size-4 mr-2" />
+              )}{" "}
+              Update
+            </Button>
+          ) : (
+            <DropdownMenu
+              open={isPublishStateOpen}
+              onOpenChange={setIsPublishStateOpen}
+            >
+              <DropdownMenuTrigger asChild>
+                <Button variant={"primary"} disabled={isPublishing}>
+                  {isPublishing ? (
+                    <Loader2 className="size-4 mr-2 animate-spin" />
+                  ) : (
+                    <Send className="size-4 mr-2" />
+                  )}{" "}
+                  Publish
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    onPublish();
+                    setIsPublishStateOpen(false);
+                  }}
+                >
+                  <Send className="size-4 mr-2" />
+                  Publish Now
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    onSchedule();
+                    setIsPublishStateOpen(false);
+                  }}
+                >
+                  <Calendar className="size-4 mr-2" />
+                  Schedule For Later
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>

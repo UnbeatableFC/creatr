@@ -138,3 +138,30 @@ html {
 .card-glass {
   @apply bg-gray-900/50 border-gray-800 hover:border-purple-500/50;
 }
+
+.custom-date-picker {
+  position: relative;
+  padding-right: 2.5rem; /* space for the icon */
+}
+
+/* Hide the default calendar icon */
+.custom-date-picker::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+/* Add the custom white calendar icon as a pseudo-element */
+.custom-date-picker::before {
+  content: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM7 12h5v5H7z"/></svg>');
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* allow clicks to pass through */
+  width: 1.5rem;
+  height: 1.5rem;
+}
