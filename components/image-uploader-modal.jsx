@@ -234,7 +234,7 @@ export default function ImageUploadModal({
       );
 
       // Add a small delay to show loading state and allow ImageKit to process
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       setTransformedImage(transformedUrl);
       toast.success("Transformations applied!");
@@ -457,10 +457,10 @@ export default function ImageUploadModal({
                         setValue("aspectRatio", value)
                       }
                     >
-                      <SelectTrigger>
-                        <SelectValue />
+                      <SelectTrigger className={"text-white"}>
+                        <SelectValue  />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent >
                         {ASPECT_RATIOS.map((ratio) => (
                           <SelectItem
                             key={ratio.value}
@@ -519,7 +519,7 @@ export default function ImageUploadModal({
                           setValue("smartCropFocus", value)
                         }
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className={"text-white"}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -553,6 +553,7 @@ export default function ImageUploadModal({
                       }
                       placeholder="Enter text to overlay..."
                       rows={3}
+                      className={"text-white"}
                     />
                   </div>
 
@@ -585,6 +586,7 @@ export default function ImageUploadModal({
                             onChange={(e) =>
                               setValue("textColor", e.target.value)
                             }
+                            className={"text-white"}
                           />
                         </div>
                         <div className="space-y-2">
@@ -597,7 +599,7 @@ export default function ImageUploadModal({
                               setValue("textPosition", value)
                             }
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className={"text-white"}>
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
