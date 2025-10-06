@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import { Calendar, UserPlus, UserCheck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,8 +13,9 @@ import PostCard from "@/components/post-card";
 import PublicHeader from "./_components/public-header";
 import { useConvexMutation, useConvexQuery } from "@/hooks/use-convex-queries";
 
-export default function ProfilePage({ params }) {
-  const { username } = React.use(params);
+export default function ProfilePage() {
+  // const { username } = React.use(params);
+  const {username} = useParams()
   const { user: currentUser } = useUser();
 
   // Get user profile

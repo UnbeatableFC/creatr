@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import PublicHeader from "../_components/public-header";
 import { useUser } from "@clerk/nextjs";
-import { useConvexMutation, useConvexQuery } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -23,6 +22,10 @@ import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { BarLoader } from "react-spinners";
+import {
+  useConvexMutation,
+  useConvexQuery,
+} from "@/hooks/use-convex-queries";
 
 const PostPage = ({ params }) => {
   const { username, postId } = React.use(params);
@@ -39,12 +42,13 @@ const PostPage = ({ params }) => {
     data: post,
     isLoading: postLoading,
     error: postError,
-  } = useConvexQuery(api.public.getPublishedPost, { username, postId });
+  } = useConvexQuery(api.public.getPublishedPost, {
+    username,
+    postId,
+  });
 
-  const { data: comments, isLoading: commentsLoading } = useConvexQuery(
-    api.comments.getPostComments,
-    { postId }
-  );
+  const { data: comments, isLoading: commentsLoading } =
+    useConvexQuery(api.comments.getPostComments, { postId });
 
   // Get like status for current user
   const { data: hasLiked } = useConvexQuery(
@@ -59,7 +63,9 @@ const PostPage = ({ params }) => {
 
   const deleteComment = useConvexMutation(api.comments.deleteComment);
 
-  const incrementView = useConvexMutation(api.public.incrementViewCount);
+  const incrementView = useConvexMutation(
+    api.public.incrementViewCount
+  );
 
   // Track view when post loads
   useEffect(() => {
@@ -188,11 +194,14 @@ const PostPage = ({ params }) => {
               <div className="text-right text-sm text-slate-400">
                 <div className="flex items-center gap-1 mb-1">
                   <Calendar className="h-4 w-4" />
-                  {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {new Date(post.publishedAt).toLocaleDateString(
+                    "en-US",
+                    {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    }
+                  )}
                 </div>
                 <div className="flex items-center gap-1">
                   <Eye className="h-4 w-4" />
@@ -233,7 +242,9 @@ const PostPage = ({ params }) => {
               }`}
               disabled={toggleLike.isLoading}
             >
-              <Heart className={`h-5 w-5 ${hasLiked ? "fill-current" : ""}`} />
+              <Heart
+                className={`h-5 w-5 ${hasLiked ? "fill-current" : ""}`}
+              />
               {post.likeCount.toLocaleString()}
             </Button>
 
@@ -251,10 +262,15 @@ const PostPage = ({ params }) => {
           {currentUser ? (
             <Card className="card-glass">
               <CardContent className="p-6">
-                <form onSubmit={handleCommentSubmit} className="space-y-4">
+                <form
+                  onSubmit={handleCommentSubmit}
+                  className="space-y-4"
+                >
                   <Textarea
                     value={commentContent}
-                    onChange={(e) => setCommentContent(e.target.value)}
+                    onChange={(e) =>
+                      setCommentContent(e.target.value)
+                    }
                     placeholder="Write a comment..."
                     className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-400 resize-none"
                     rows={3}
@@ -267,7 +283,9 @@ const PostPage = ({ params }) => {
                     </p>
                     <Button
                       type="submit"
-                      disabled={isSubmittingComment || !commentContent.trim()}
+                      disabled={
+                        isSubmittingComment || !commentContent.trim()
+                      }
                       variant="primary"
                     >
                       {isSubmittingComment ? (
@@ -314,7 +332,9 @@ const PostPage = ({ params }) => {
                             />
                           ) : (
                             <div className="w-full h-full rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-sm font-bold">
-                              {comment.author?.name?.charAt(0).toUpperCase()}
+                              {comment.author?.name
+                                ?.charAt(0)
+                                .toUpperCase()}
                             </div>
                           )}
                         </div>
@@ -324,15 +344,14 @@ const PostPage = ({ params }) => {
                             {comment.author?.name || "Anonymous"}
                           </p>
                           <p className="text-xs text-slate-400">
-                            {new Date(comment.createdAt).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              }
-                            )}
+                            {new Date(
+                              comment.createdAt
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
                           </p>
                         </div>
                       </div>
@@ -341,9 +360,12 @@ const PostPage = ({ params }) => {
                       {currentConvexUser &&
                         comment.author &&
                         (currentConvexUser._id === comment.authorId ||
-                          currentConvexUser._id === post.authorId) && (
+                          currentConvexUser._id ===
+                            post.authorId) && (
                           <Button
-                            onClick={() => handleDeleteComment(comment._id)}
+                            onClick={() =>
+                              handleDeleteComment(comment._id)
+                            }
                             variant="ghost"
                             size="sm"
                             className="text-slate-400 hover:text-red-400"
